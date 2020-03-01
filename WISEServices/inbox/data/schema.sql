@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS Messages;
+CREATE TABLE Messages(
+  id SERIAL PRIMARY KEY,
+  inbox_name VARCHAR(512) NOT NULL,
+  text TEXT NOT NULL,
+  created_at VARCHAR(64) NOT NULL
+);
