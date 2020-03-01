@@ -105,12 +105,12 @@ CONTAINER_COMMON_COMMANDS="
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y virtualenv
     virtualenv -p `which python3` $wise_home/.env
 "
-
+echo "Container Commands Next"
 ##Ignore container commands if docker is not chosen
 if ["$CONTAINER_TYPE" == "Docker"]; then
 CONTAINER_COMMON_COMMANDS=""
 
-
+echo "Container Commands Next"
 #Container Setup
 if ["$CONTAINER_TYPE" == "Docker"]; then
   echo "[$(date +%s)] Database Container setup on host:"
