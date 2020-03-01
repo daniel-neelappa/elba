@@ -109,7 +109,8 @@ echo "Container Commands Next"
 ##Ignore container commands if docker is not chosen
 if ["$CONTAINER_TYPE" == "Docker"]; then
 CONTAINER_COMMON_COMMANDS=""
-if
+fi
+
 echo "Container Commands Next"
 #Container Setup
 if ["$CONTAINER_TYPE" == "Docker"]; then
