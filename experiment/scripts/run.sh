@@ -12,59 +12,7 @@ source conf/config.sh
 all_hosts="$CLIENT_HOSTS $WEB_HOSTS $POSTGRESQL_HOST $WORKER_HOSTS $MICROBLOG_HOSTS $AUTH_HOSTS $INBOX_HOSTS $QUEUE_HOSTS $SUB_HOSTS"
 
 
-echo "[$(date +%s)] Socket setup:"
-for host in $all_hosts; do
-  echo "  [$(date +%s)] Limiting socket backlog in host $host"
-  ssh -T -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o \
-      BatchMode=yes $USERNAME@$host "
-    sudo sysctl -w net.core.somaxconn=64
-  "
-done
 
-
-echo "[$(date +%s)] Filesystem setup:"
-if [[ $HOSTS_TYPE = "vm" ]]; then
-  fs_rootdir="/experiment"
-  for host in $all_hosts; do
-    echo "  [$(date +%s)][VM] Creating directories in host $host"
-    ssh -T -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-        -o BatchMode=yes $USERNAME@$host "
-      sudo mkdir -p $fs_rootdir
-      sudo chown $USERNAME $fs_rootdir
-    "
-  done
-else
-  fs_rootdir="/mnt/experiment"
-  pdisk="/dev/sdb"
-  pno=1
-  psize="128G"
-  for host in $all_hosts; do
-    echo "  [$(date +%s)][PHYSICAL] Creating disk partition in host $host"
-    ssh -T -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-        -o BatchMode=yes $USERNAME@$host "
-      echo -e \"n\np\n${pno}\n\n+${psize}\nw\n\" | sudo fdisk $pdisk
-      nohup sudo systemctl reboot -i &>/dev/null & exit
-    "
-  done
-  sleep 240
-  sessions=()
-  n_sessions=0
-  for host in $all_hosts; do
-    echo "  [$(date +%s)][PHYSICAL] Making filesystem and mounting partition in host $host"
-    ssh -T -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-        -o BatchMode=yes $USERNAME@$host "
-      sudo mkfs -F -t ext4 ${pdisk}${pno}
-      sudo mkdir -p $fs_rootdir
-      sudo mount ${pdisk}${pno} $fs_rootdir
-      sudo chown $USERNAME $fs_rootdir
-    " &
-    sessions[$n_sessions]=$!
-    let n_sessions=n_sessions+1
-  done
-  for session in ${sessions[*]}; do
-    wait $session
-  done
-fi
 
 
 echo "[$(date +%s)] Common software setup:"
@@ -118,6 +66,8 @@ done
 for session in ${sessions[*]}; do
   wait $session
 done
+
+echo "Container Commands Next"
 
 #Container Common Setup Commands
 CONTAINER_COMMON_COMMANDS="
@@ -1047,3 +997,4 @@ for host in $all_hosts; do
   scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@$host:log-*.tar.gz .
 done
 tar -czf results.tar.gz log-*.tar.gz conf/
+
