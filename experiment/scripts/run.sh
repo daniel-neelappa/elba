@@ -170,13 +170,13 @@ CONTAINER_COMMON_COMMANDS="
 "
 echo "Container Commands Next"
 ##Ignore container commands if docker is not chosen
-if ["$CONTAINER_TYPE" == "Docker"]; then
+if ["$CONTAINER_TYPE" == *"Docker"*]; then
 CONTAINER_COMMON_COMMANDS=""
 fi
 
 echo "Container Commands Next"
 #Container Setup
-if ["$CONTAINER_TYPE" == "Docker"]; then
+if ["$CONTAINER_TYPE" == *"Docker"*]; then
   echo "[$(date +%s)] Database Container setup on host:"
   sessions=()
   n_sessions=0
