@@ -67,7 +67,7 @@ fi
 
 
 #Container Setup
-if [[ "$CONTAINER_TYPE" == *"Docker" ]]; then
+if [[ "$CONTAINER_TYPE" == "Docker" ]]; then
   echo "[$(date +%s)] Database Container setup on host:"
   sessions=()
   n_sessions=0
