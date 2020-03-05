@@ -78,7 +78,8 @@ if [[ "$CONTAINER_TYPE" == *"Docker" ]]; then
       sudo docker run --rm -p $POSTGRESQL_SSH:22 -p $POSTGRESQL_PORT:$POSTGRESQL_PORT -d --cpuset-cpus $POSTGRESQL_CPU --name postgresql harvardbiodept/nucleus
       sudo docker cp ~/.ssh/id_rsa.pub postgresql:/root/.ssh/
       sudo docker cp ~/.ssh/id_rsa postgresql:/root/.ssh/
-      sudo docker exec -w /root/.ssh postgresql bash -c "cat id_rsa.pub >> authorized_keys"
+      sudo docker cp ~/.ssh/authorized_keys postgresql:/root/.ssh/
+      
 
     " &
     sessions[$n_sessions]=$!
