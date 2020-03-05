@@ -62,3 +62,28 @@ else
     CONTAINER_COMMON_COMMANDS=""
     echo "Docker Not Chosen"
 fi
+
+
+
+
+#Container Setup
+if [[ "$CONTAINER_TYPE" == *"Docker" ]]; then
+  echo "[$(date +%s)] Database Container setup on host:"
+  sessions=()
+  n_sessions=0
+  for host in $POSTGRESQL_HOST; do
+    echo "  [$(date +%s)] Setting up Container database server on host $host"
+    ssh -T -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+        -o BatchMode=yes $USERNAME@$host "
+      sudo docker run --rm -p $POSTGRESQL_SSH:22 -p $POSTGRESQL_PORT:$POSTGRESQL_PORT -d --cpuset-cpus $POSTGRESQL_CPU --name postgresql harvardbiodept/nucleus
+      sudo docker cp ~/.ssh/id_rsa.pub postgresql:/root/.ssh/
+      sudo docker exec -w /root/.ssh postgresql bash -c "cat id_rsa.pub >> authorized_keys"
+
+    " &
+    sessions[$n_sessions]=$!
+    let n_sessions=n_sessions+1
+  done
+  for session in ${sessions[*]}; do
+    wait $session
+  done
+fi
