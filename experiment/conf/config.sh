@@ -16,22 +16,22 @@ readonly HARDWARE_TYPE="d430"
 # Hostnames of each tier.
 # Example (bare metal host): pc853.emulab.net
 # Example (virtual machine): 10.254.3.128
-readonly WEB_HOSTS="pc808.emulab.net"
+readonly WEB_HOSTS="pc852.emulab.net"
 readonly WEB_PORT=80
-readonly POSTGRESQL_HOST="pc810.emulab.net"
+readonly POSTGRESQL_HOST="pc719.emulab.net"
 readonly POSTGRESQL_PORT=5432
-readonly WORKER_HOSTS="pc780.emulab.net"
-readonly MICROBLOG_HOSTS="pc797.emulab.net"
+readonly WORKER_HOSTS="pc768.emulab.net"
+readonly MICROBLOG_HOSTS="pc844.emulab.net"
 readonly MICROBLOG_PORT=9090
-readonly AUTH_HOSTS="pc817.emulab.net"
+readonly AUTH_HOSTS="pc840.emulab.net"
 readonly AUTH_PORT=9091
-readonly INBOX_HOSTS="pc798.emulab.net"
+readonly INBOX_HOSTS="pc774.emulab.net"
 readonly INBOX_PORT=9092
-readonly QUEUE_HOSTS="pc813.emulab.net"
+readonly QUEUE_HOSTS="pc818.emulab.net"
 readonly QUEUE_PORT=9093
-readonly SUB_HOSTS="pc774.emulab.net"
+readonly SUB_HOSTS="pc769.emulab.net"
 readonly SUB_PORT=9094
-readonly CLIENT_HOSTS="pc806.emulab.net"
+readonly CLIENT_HOSTS="pc843.emulab.net"
 
 #Container CPU Affinity
 #Example: "1",2,3 ....
