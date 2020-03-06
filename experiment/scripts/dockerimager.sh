@@ -93,27 +93,3 @@ if [[ "$CONTAINER_TYPE" == "Docker" ]]; then
   done
 fi
 
-echo "[$(date +%s)] Database setup:"
-sessions=()
-n_sessions=0
-for host in $POSTGRESQL_HOST; do
-  echo "  [$(date +%s)] Setting up database server on host $host"
-  ssh -T -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-      -o BatchMode=yes $CONTAINER_USERNAME@$host -p $POSTGRESQL_SSH "
-      $CONTAINER_COMMON_COMMANDS
-    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql-10
-    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql-client-common
-    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql-client-10
-
-    export POSTGRES_MAXCONNECTIONS="$POSTGRES_MAXCONNECTIONS"
-
-    $wise_home/microblog_bench/postgres/scripts/start_postgres.sh
-    sudo -u postgres psql -c \"CREATE ROLE $CONTAINER_USERNAME WITH LOGIN CREATEDB SUPERUSER\"
-    createdb microblog_bench
-  " &
-  sessions[$n_sessions]=$!
-  let n_sessions=n_sessions+1
-done
-for session in ${sessions[*]}; do
-  wait $session
-done
