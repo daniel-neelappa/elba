@@ -57,6 +57,7 @@ if [[ $CONTAINER_TYPE == "Docker" ]]; then
     virtualenv -p `which python3` $wise_home/.env
 "
     fs_rootdir="/root"
+    wise_home="elba"
     echo "Docker Chosen"
 else
     CONTAINER_COMMON_COMMANDS=""
