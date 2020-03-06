@@ -81,7 +81,7 @@ if [[ "$CONTAINER_TYPE" == "Docker" ]]; then
       sudo docker cp postgresql:/root/.ssh/authorized_keys ~/dockerKey
       cat ~/.ssh/id_rsa.pub >> ~/dockerKey
 
-      sudo docker exec --user root postgresql bash -c $"cat 'root/manatee' >> '/root/.ssh/authorized_keys'"
+      sudo docker exec --user root postgresql bash -c $'$commd'
       
       
 
