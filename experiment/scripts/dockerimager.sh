@@ -64,6 +64,7 @@ if [[ "$CONTAINER_TYPE" == "Docker" ]]; then
   n_sessions=0
   for host in $POSTGRESQL_HOST; do
     echo "  [$(date +%s)] Setting up Container database server on host $host"
+    echo "$wise_home"
     ssh -T -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
         -o BatchMode=yes $USERNAME@$host "
       sudo docker run --rm -p $POSTGRESQL_SSH:22 -p $POSTGRESQL_PORT:$POSTGRESQL_PORT -d --cpuset-cpus $POSTGRESQL_CPU --name postgresql harvardbiodept/nucleus
