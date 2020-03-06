@@ -56,7 +56,7 @@ if [[ $CONTAINER_TYPE == "Docker" ]]; then
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y virtualenv
     virtualenv -p `which python3` $wise_home/.env
 "
-    fs_rootdir="/root"
+    fs_rootdir="/root/"
     wise_home="elba"
     echo "Docker Chosen"
 else
@@ -79,6 +79,7 @@ if [[ "$CONTAINER_TYPE" == "Docker" ]]; then
       sudo docker run --rm -p $POSTGRESQL_SSH:22 -p $POSTGRESQL_PORT:$POSTGRESQL_PORT -d --cpuset-cpus $POSTGRESQL_CPU --name postgresql harvardbiodept/nucleus
       sudo docker cp ~/.ssh/id_rsa.pub postgresql:/root/.ssh/
       sudo docker cp ~/.ssh/id_rsa postgresql:/root/.ssh/
+      sudo docker cp -a ~/elba postgresql:/root/
       sudo docker exec --user root postgresql bash -c $'$commd'
       
       
