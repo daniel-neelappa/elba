@@ -21,6 +21,9 @@ echo "Container Commands Next"
 
 ##Ignore container commands if docker is not chosen
 if [[ $CONTAINER_TYPE == "Docker" ]]; then
+    
+    wise_home="/root/elba"
+    echo "Docker Chosen"
     CONTAINER_COMMON_COMMANDS="
 # Synchronize apt.
     apt-get install -y sudo
@@ -46,8 +49,6 @@ if [[ $CONTAINER_TYPE == "Docker" ]]; then
     virtualenv -p `which python3` $wise_home/.env
 "
 
-    wise_home="/root/elba"
-    echo "Docker Chosen"
 else
     CONTAINER_COMMON_COMMANDS=""
     echo "Docker Not Chosen"
