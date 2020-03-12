@@ -156,6 +156,11 @@ for session in ${sessions[*]}; do
   wait $session
 done
 
+#Do Database setup for each service
+    $wise_home/WISEServices/auth/scripts/setup_database.sh $POSTGRESQL_HOST
+    $wise_home/WISEServices/inbox/scripts/setup_database.sh $POSTGRESQL_HOST
+    $wise_home/WISEServices/queue_/scripts/setup_database.sh $POSTGRESQL_HOST
+    $wise_home/WISEServices/sub/scripts/setup_database.sh $POSTGRESQL_HOST
 
  
 
